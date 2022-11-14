@@ -2,28 +2,43 @@
   
   <v-container>
     <div>
-      frond end time : {{timecounter}}
+      当前浏览器时间 : {{timecounter}}
+    </div>
+    <div>
+      后端计算时间 : {{response.tm}}
     </div>
   <v-table >
     <thead>
       <tr>
         <th class="text-left">
-          Code
+          代码
         </th>
         <th class="text-left">
-          Name
+          名字
         </th>
         <th class="text-left">
-          bk
+          板块
         </th>
         <th class="text-left">
-          Ratio
+          放量比例
         </th>
         <th class="text-left">
-          lastdate
+          对比日期
         </th>
         <th class="text-left">
-          amount
+          今量
+        </th>
+        <th class="text-left">
+          昨量
+        </th>
+        <th class="text-left">
+          前一天比例
+        </th>
+        <th class="text-left">
+          周量比例
+        </th>
+        <th class="text-left">
+          当日涨幅
         </th>
       </tr>
     </thead>
@@ -37,7 +52,11 @@
         <td>{{ item.bk }}</td>
         <td>{{ item.ratio }}</td>
         <td>{{ item.ckdate }}</td>
-        <td>{{ item.amount }}</td>
+        <td>{{ item.now }}</td>
+        <td>{{ item.last }}</td>
+        <td :style="checkflag(item.llrf)">{{ item.llr }}</td>
+        <td :style="checkflag(item.waf)">{{ item.war }}</td>
+        <td :style="checkflag(item.detpf)">{{ item.detp }}</td>
       </tr>
     </tbody>
   </v-table>
@@ -50,54 +69,13 @@
     data () {
       return {
           timecounter: null,
-          desserts: [
-              {
-                  name: 'Frozen Yogurt',
-                  calories: 159,
-                },
-              {
-                  name: 'Ice cream sandwich',
-                  calories: 237,
-                },
-              {
-                  name: 'Eclair',
-                  calories: 262,
-                },
-              {
-                  name: 'Cupcake',
-                  calories: 305,
-                },
-              {
-                  name: 'Gingerbread',
-                  calories: 356,
-                },
-              {
-                  name: 'Jelly bean',
-                  calories: 375,
-                },
-              {
-                  name: 'Lollipop',
-                  calories: 392,
-                },
-              {
-                  name: 'Honeycomb',
-                  calories: 408,
-                },
-              {
-                  name: 'Donut',
-                  calories: 452,
-                },
-              {
-                  name: 'KitKat',
-                  calories: 518,
-                },
-            ],
             response: {},
           content: [],
         }
     },
       mounted() {
           console.log("mounted")
+          this.getList()
           setInterval(() => {
           this.getList()
             }, 100000)
@@ -112,10 +90,16 @@
                   console.log(res.data)
                   this.response = res.data
                   //obj = JSON.parse(this.response)
-                  //console.log(obj)
                   this.content = this.response.data
                 })
-            }
+            },
+          checkflag(x) {
+          if (x) {
+              return "background-color: #FF0000"
+            }else {
+                return ""
+              }
+        }
         }
 
   }
