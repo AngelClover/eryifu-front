@@ -75,6 +75,8 @@
     },
       mounted() {
           console.log("mounted")
+          console.log(process.env.NODE_ENV)
+          console.log(import.meta.env.VITE_BACKEND_ROOT)
           this.getList()
           setInterval(() => {
           this.getList()
@@ -86,7 +88,7 @@
       methods: {
           getList() {
               console.log("start get data")
-              this.axios.get("http://localhost:8080/ss1").then((res) => {
+              this.axios.get(import.meta.env.VITE_BACKEND_ROOT + "ss1").then((res) => {
                   console.log(res.data)
                   this.response = res.data
                   //obj = JSON.parse(this.response)
