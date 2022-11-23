@@ -40,6 +40,9 @@
         <th class="text-left">
           当日涨幅
         </th>
+        <th class="text-left">
+         最近连续10穿73天数(-是下穿)
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -48,7 +51,7 @@
         :key="item.code"
       >
         <td>{{ item.code }}</td>
-        <td>{{ item.name }}</td>
+        <td><a :href="quotelink(item.code)" target="_blank">{{ item.name }}</a></td>
         <td>{{ item.bk }}</td>
         <td>{{ item.ratio }}</td>
         <td>{{ item.ckdate }}</td>
@@ -57,6 +60,7 @@
         <td :style="checkflag(item.llrf)">{{ item.llr }}</td>
         <td :style="checkflag(item.waf)">{{ item.war }}</td>
         <td :style="checkflag(item.detpf)">{{ item.detp }}</td>
+        <td :style="checkflag(item.tosf)">{{ item.tos }}</td>
       </tr>
     </tbody>
   </v-table>
@@ -101,7 +105,19 @@
             }else {
                 return ""
               }
-        }
+          },
+          quotelink(x) {
+              if (x.startsWith("688")){
+                  return "http://quote.eastmoney.com/kcb/" + x + ".html"
+                }else if (x.startsWith("60")){
+                    return "http://quote.eastmoney.com/sh" + x + ".html"
+                  }else if (x.startsWith("0")){
+                      return "http://quote.eastmoney.com/sz" + x + ".html"
+                    }else {
+                        return ""
+                      }
+            }
+
         }
 
   }
