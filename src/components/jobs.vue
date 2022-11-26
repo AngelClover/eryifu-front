@@ -8,7 +8,7 @@
     <div>
       ss1
     </div>
-    <v-btn> ss1触发 </v-btn>
+    <v-btn @click=triggerss1> ss1触发 </v-btn>
     <div>
       {{ss1}}
     </div>
@@ -16,7 +16,7 @@
     <div>
       prefill
     </div>
-    <v-btn> prefill触发 </v-btn>
+    <v-btn @click=triggerprefill> prefill触发 </v-btn>
     <div>
       {{prefill}}
     </div>
@@ -55,13 +55,25 @@
                   this.ss1 = res.data
                 })
             },
+          triggerss1() {
+              console.log("start trigger ss1")
+              this.axios.get(import.meta.env.VITE_BACKEND_ROOT + "job/ss1").then((res) => {
+                  console.log(res.data)
+                })
+            },
           getprefill() {
               console.log("start get job_status_prefill")
               this.axios.get(import.meta.env.VITE_BACKEND_ROOT + "db/job_status_prefill").then((res) => {
                   console.log(res.data)
                   this.prefill = res.data
                 })
-            }
+            },
+          triggerprefill() {
+              console.log("start trigger prefill")
+              this.axios.get(import.meta.env.VITE_BACKEND_ROOT + "job/prefill").then((res) => {
+                  console.log(res.data)
+                })
+            },
 
         }
 
