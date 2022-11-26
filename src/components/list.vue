@@ -7,6 +7,9 @@
     <div>
       后端计算时间 : {{response.tm}}
     </div>
+    <div>
+      当前是否是开盘时间: {{isopen}}
+    </div>
   <v-table >
     <thead>
       <tr>
@@ -75,6 +78,7 @@
           timecounter: null,
             response: {},
           content: [],
+          isopen: false
         }
     },
       mounted() {
@@ -82,12 +86,16 @@
           console.log(process.env.NODE_ENV)
           console.log(import.meta.env.VITE_BACKEND_ROOT)
           this.getList()
+          this.getOpenStatus()
           setInterval(() => {
           this.getList()
             }, 100000)
           setInterval(() => {
               this.timecounter = new Date()
             }, 1000)
+          setInterval(() => {
+          this.getOpenStatus()
+            }, 10000)
         },
       methods: {
           getList() {
@@ -97,6 +105,14 @@
                   this.response = res.data
                   //obj = JSON.parse(this.response)
                   this.content = this.response.data
+                })
+            },
+          getOpenStatus() {
+              console.log("start get opentime")
+              this.axios.get(import.meta.env.VITE_BACKEND_ROOT + "isopen").then((res) => {
+                  console.log(res.data)
+                  this.isopen = res.data.open
+                  //obj = JSON.parse(this.response)
                 })
             },
           checkflag(x) {
