@@ -21,7 +21,7 @@
           :items="dateitems"
           label="数据日期"
           v-model="selectdate"
-          @change="changedate($selectdate)"
+          @change="changedate(selectdate)"
         ></v-select>
       </v-col>
       </v-row>
