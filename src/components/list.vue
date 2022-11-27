@@ -10,6 +10,23 @@
     <div>
       当前是否是开盘时间: {{isopen}}
     </div>
+    <div align=right>
+      <v-row align="end">
+      <v-col
+        class="d-flex"
+        cols="12"
+        sm="3"
+      >
+      <v-select
+          :items="dateitems"
+          label="数据日期"
+          v-model="selectdate"
+          @change="changedate($selectdate)"
+        ></v-select>
+      </v-col>
+      </v-row>
+    </div>
+
   <v-table >
     <thead>
       <tr>
@@ -78,7 +95,9 @@
           timecounter: null,
             response: {},
           content: [],
-          isopen: false
+          isopen: false,
+          dateitems: ["realtime", "2022-11-25", "2022-11-24"],
+          selectdate: "realtime"
         }
     },
       mounted() {
@@ -87,9 +106,10 @@
           console.log(import.meta.env.VITE_BACKEND_ROOT)
           this.getList()
           this.getOpenStatus()
+          this.getDateList()
           setInterval(() => {
           this.getList()
-            }, 100000)
+            }, 10000)
           setInterval(() => {
               this.timecounter = new Date()
             }, 1000)
@@ -97,10 +117,29 @@
           this.getOpenStatus()
             }, 10000)
         },
+      computed : {
+          datasource() {
+              if (this.selectdate == "realtime"){
+                  return "ss1"
+                }else {
+                    return "ss1/" + this.selectdate
+                  }
+            }
+        },
       methods: {
+          getDateList() {
+              console.log("start get datelist")
+              this.axios.get(import.meta.env.VITE_BACKEND_ROOT + "ss1list").then((res) => {
+                  console.log(res.data)
+                  //this.response = res.data
+                  //this.content = this.response.data
+                  this.dateitems = ["realtime"].concat(res.data.datelist)
+                })
+            },
           getList() {
               console.log("start get data")
-              this.axios.get(import.meta.env.VITE_BACKEND_ROOT + "ss1").then((res) => {
+              console.log("datasource :", this.datasource)
+              this.axios.get(import.meta.env.VITE_BACKEND_ROOT + this.datasource).then((res) => {
                   console.log(res.data)
                   this.response = res.data
                   //obj = JSON.parse(this.response)
@@ -132,6 +171,13 @@
                     }else {
                         return ""
                       }
+            },
+          changedate(x) {
+              console.log("receive date change ->", x)
+              this.selectdate = x
+            },
+          changed() {
+              console.log("changed received")
             }
 
         }
