@@ -63,6 +63,9 @@
         <th class="text-left">
          最近连续10穿73天数(-是下穿)
         </th>
+        <th class="text-left">
+          下日涨幅
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -81,6 +84,7 @@
         <td :style="checkflag(item.waf)">{{ item.war }}</td>
         <td :style="checkflag(item.detpf)">{{ item.detp }}</td>
         <td :style="checkflag(item.tosf)">{{ item.tos }}</td>
+        <td >{{ item.next }}</td>
       </tr>
     </tbody>
   </v-table>
