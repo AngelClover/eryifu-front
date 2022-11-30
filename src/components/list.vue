@@ -84,7 +84,11 @@
         <td :style="checkflag(item.waf)">{{ item.war }}</td>
         <td :style="checkflag(item.detpf)">{{ item.detp }}</td>
         <td :style="checkflag(item.tosf)">{{ item.tos }}</td>
-        <td >{{ item.next }}</td>
+        <td border=1px>
+          <span v-if="item.next > -50">
+            {{ item.next }}
+          </span>
+        </td>
       </tr>
     </tbody>
   </v-table>
